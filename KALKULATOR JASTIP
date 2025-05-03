@@ -1,0 +1,112 @@
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Kalkulator Biaya Jastip</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            margin-top: 10px;
+            display: block;
+            font-weight: bold;
+        }
+        input[type="number"], input[readonly] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        input[type="button"] {
+            background-color: #28a745;
+            color: white;
+            padding: 12px;
+            border: none;
+            width: 100%;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="button"]:hover {
+            background-color: #218838;
+        }
+        .note {
+            font-size: 13px;
+            color: #cc0000;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Kalkulator Jastip Taobao</h2>
+
+```
+<label for="totalHargaBarang">Total Harga Barang (RMB)</label>
+<input type="number" id="totalHargaBarang" placeholder="Contoh: 300">
+
+<div class="note">
+    Catatan: Harap masukkan harga barang dengan harga normal. Voucher diskon hanya berlaku untuk pengguna baru di akun Taobao dan tidak berlaku di akun kami.
+</div>
+<div class="note">
+    Catatan: Harga yang dihitung tidak termasuk biaya ongkir. Ongkir akan dihitung saat barang tiba di warehouse.
+</div>
+
+<input type="button" value="Hitung Total" onclick="hitungTotal()">
+
+<label>Biaya Jastip</label>
+<input type="text" id="biayaJastip" readonly>
+
+<label>Total Harga (IDR)</label>
+<input type="text" id="totalIDR" readonly>
+
+<label>Total Harga (NTD)</label>
+<input type="text" id="totalNTD" readonly>
+```
+
+</div>
+
+<script>
+    function formatRupiah(angka) {
+        return 'Rp ' + angka.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
+    function hitungTotal() {
+        let rmb = parseFloat(document.getElementById("totalHargaBarang").value);
+        if (isNaN(rmb) || rmb <= 0) {
+            alert("Silakan masukkan total harga barang dalam RMB yang valid.");
+            return;
+        }
+
+        let jastip = rmb > 450 ? rmb * 0.10 : rmb * 0.15;
+        let totalIDR = Math.round((rmb + jastip) * 2500);
+        let totalNTD = Math.round(totalIDR / 435);
+
+        document.getElementById("biayaJastip").value = Math.round(jastip) + " RMB";
+        document.getElementById("totalIDR").value = formatRupiah(totalIDR);
+        document.getElementById("totalNTD").value = totalNTD + " NTD";
+    }
+</script>
+
+</body>
+</html>
